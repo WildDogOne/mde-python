@@ -101,6 +101,14 @@ class defender:
         else:
             return False
 
+    def get_vulnerabilites_by_id(self, cve):
+        url = self._api_url + f"/api/vulnerabilities/machinesVulnerabilities/{cve}"
+        output = self._get(url)
+        if output:
+            return output
+        else:
+            return False
+
     def get_endpoints(self):
         url = self._api_url + "/api/machines"
         output = self._get(url)
