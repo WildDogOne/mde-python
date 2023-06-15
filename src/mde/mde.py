@@ -10,7 +10,9 @@ import requests
 """
 Configure Logging
 """
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -24,9 +26,7 @@ class defender:
         self._appId = config["client_id"]
         self._appSecret = config["client_secret"]
         aadToken = self._startauth()
-        self._headers = {
-            'Authorization': "Bearer " + aadToken
-        }
+        self._headers = {"Authorization": "Bearer " + aadToken}
 
     def _startauth(self):
         url = "https://login.microsoftonline.com/%s/oauth2/token" % self._tenantId
@@ -34,10 +34,10 @@ class defender:
         resourceAppIdUri = self._api_url
 
         body = {
-            'resource': resourceAppIdUri,
-            'client_id': self._appId,
-            'client_secret': self._appSecret,
-            'grant_type': 'client_credentials'
+            "resource": resourceAppIdUri,
+            "client_id": self._appId,
+            "client_secret": self._appSecret,
+            "grant_type": "client_credentials",
         }
 
         data = urllib.parse.urlencode(body).encode("utf-8")
@@ -84,6 +84,17 @@ class defender:
 
     def get_machine_vulnerabilites(self):
         url = self._api_url + "/api/vulnerabilities/machinesVulnerabilities"
+        output = self._get(url)
+        if output:
+            return output
+        else:
+            return False
+
+    def get_vulnerabilites_by_machine(self, machineId):
+        url = (
+            self._api_url
+            + f"/api/vulnerabilities/machinesVulnerabilities$filter=machineId eq '{machineId}'"
+        )
         output = self._get(url)
         if output:
             return output
