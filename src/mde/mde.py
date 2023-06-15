@@ -93,7 +93,7 @@ class defender:
     def get_vulnerabilites_by_machine(self, machineId):
         url = (
             self._api_url
-            + f"/api/vulnerabilities/machinesVulnerabilities$filter=machineId eq '{machineId}'"
+            + f"/api/vulnerabilities/machinesVulnerabilities?$filter=machineId eq '{machineId}'"
         )
         output = self._get(url)
         if output:
