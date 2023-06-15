@@ -53,6 +53,8 @@ class defender:
         response = requests.request("GET", url, headers=self._headers)
         if response.status_code == 200:
             response = response.json()
+            if "value" not in response:
+                return response
             output = output + response["value"]
             if "@odata.nextLink" in response:
                 logger.info(f'Next URL: {response["@odata.nextLink"]}')
@@ -102,7 +104,7 @@ class defender:
             return False
 
     def get_vulnerabilites_by_id(self, cve):
-        url = self._api_url + f"/api/vulnerabilities/machinesVulnerabilities/{cve}"
+        url = self._api_url + f"/api/vulnerabilities/{cve}"
         output = self._get(url)
         if output:
             return output
