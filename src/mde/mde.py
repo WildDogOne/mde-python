@@ -130,3 +130,8 @@ class defender:
     def post(self, api, payload):
         url = self._api_url + api
         return self._post(url, payload)
+
+    def kql_query(self, query):
+        url = self._api_url + "/api/advancedqueries/run"
+        payload = {"Query": query}
+        return self._post(url, payload)
